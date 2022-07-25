@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mainSQL">
+<!--/**
+ *  메인 SQL 질의 응답
+ * @author	조희덕
+ * @since	2022/06/28
+ * @version	v.1.0
+ * 			작업이력 ]
+ * 				2022.06.28	-	스프링 프로젝트로 컨버트
+ * 								담당자 : 조희덕
+ *
+ */
+-->
+	<select id="mainInfo" resultType="mainVO">
+		SELECT   
+			fno, fname, open_place, sdate, edate, diff
+		FROM 
+			(
+				SELECT
+					fno, fname, open_place, sdate, edate, TO_DATE(sdate, 'YY/MM/DD') - TO_DATE(sysdate, 'YY/MM/DD') diff
+				FROM
+					festival_info
+				WHERE
+					TO_DATE(sdate, 'YY/MM/DD') - TO_DATE(sysdate, 'YY/MM/DD') > 0
+					AND isshow = 'Y'
+				order by
+					diff asc
+			)
+		WHERE 
+			<![CDATA[ROWNUM < 7]]>
+	</select>
+	<select id="mainReview" resultType="rVO" parameterType="int">
+		SELECT
+			review_no rno, fname, review_title title, review_body body, user_name writer, review_score score
+		FROM
+		    festival_info , festival_review r, member m
+		WHERE
+		    fno = fest_no
+		    AND r.user_no = m.user_no
+		    AND fno = #{fno}
+	</select>
+	<select id="mainAvgScore" resultType="rVO">
+		SELECT
+		    ROUND(AVG(review_score), 1) score, fest_no	
+		FROM
+		    festival_review
+		WHERE
+		    isshow = 'Y'
+		GROUP BY
+		    fest_no
+		ORDER BY
+		    DBMS_RANDOM.random()
+	</select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+			"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--/**
+ *  마이바티스 설정
+ * @author	조희덕
+ * @since	2022/06/28
+ * @version	v.1.0
+ * 			작업이력 ]
+ * 				2022.06.28	-	스프링 프로젝트로 컨버트
+ * 								담당자 : 조희덕
+ *
+ */
+-->
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+	</settings>	
+	
+	<typeAliases>
+		<typeAlias alias="mVO" type="com.githrd.festival.vo.MemberVO" />
+		<typeAlias alias="fVO" type="com.githrd.festival.vo.FileVO" />
+		<typeAlias alias="iVO" type="com.githrd.festival.vo.InfoVO" />
+		<typeAlias alias="rVO" type="com.githrd.festival.vo.ReviewVO" />
+		<typeAlias alias="mainVO" type="com.githrd.festival.vo.MainVO" />
+		<typeAlias alias="page" type="com.githrd.festival.util.PageUtil" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="com/githrd/festival/sql/MemberSQL.xml" />
+		<mapper resource="com/githrd/festival/sql/InfoSQL.xml" />
+		<mapper resource="com/githrd/festival/sql/MainSQL.xml" />
+		<mapper resource="com/githrd/festival/sql/MypageSQL.xml" />
+		<mapper resource="com/githrd/festival/sql/InfoSQL.xml" />
+	</mappers>
+	
+</configuration>

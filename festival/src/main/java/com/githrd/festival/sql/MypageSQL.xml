@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pSQL">
+<!--/**
+ *  멤버 SQL 질의 응답
+ * @author	조희덕
+ * @since	2022/07/12
+ * @version	v.1.0
+ * 			작업이력 ]
+ * 				2022.07.12	-	스프링 프로젝트로 컨버트
+ * 								담당자 : 조희덕
+ *
+ */
+-->
+	<select id="getMyFInfoCnt" resultType="int" parameterType="mVO">
+		select
+			count(*)
+		from
+			FESTIVAL_INFO
+		where fno in (
+	    	select FEST_NO
+	    	from BOOKMARK
+	    	where USER_NO = #{uno}
+	    )
+	</select>
+	<select id="getMyInfo" resultType="mVO" parameterType="mVO">
+		SELECT
+		    USER_NO uno, USER_NAME name, USER_ID id, USER_ADD addr, USER_TEL tel, USER_MAIL mail, USER_BIRTH birth, USER_GEN gen
+	    FROM
+		    member
+		WHERE
+			isshow = 'Y'
+			AND user_id = #{id}
+	</select>
+	<select id="getMyFinfo" resultType="mainVO" parameterType="mVO">
+		select 
+			fno, fname, open_place, sdate, edate
+		from 
+			FESTIVAL_INFO
+		where fno in (
+	    	select FEST_NO
+	    	from BOOKMARK
+	    	where USER_NO = #{uno}
+	    )
+	</select>
+	<select id="getMyRinfo" resultType="rVO" parameterType="mVO">
+		select
+		    USER_NAME writer, REVIEW_NO rno, REVIEW_TITLE title, REVIEW_BODY body
+		from
+		    FESTIVAL_REVIEW r, MEMBER m
+		where
+		    m.USER_NO = r.USER_NO
+		    and m.USER_NO = #{uno}
+	</select>	
+	<select id="check" resultType="int" parameterType="mVO">
+		SELECT
+			COUNT(*)
+		FROM
+			member
+		WHERE
+			user_id = #{id}
+			AND isshow = 'Y'
+			AND user_pw = #{pw}
+	</select>
+	<update id="editInfo" parameterType="mVO">
+		UPDATE
+			member
+		<set>
+			<if test="pw neq null">
+				user_pw = #{pw},
+			</if>
+			<if test="mail neq null">
+				user_mail = #{mail},
+			</if>
+			<if test="tel neq null">
+				user_tel = #{tel},
+			</if>
+			<if test="addr neq null">
+				user_add = #{addr},
+			</if>
+		</set>
+		WHERE
+			user_no = #{uno}
+	</update>
+</mapper>
