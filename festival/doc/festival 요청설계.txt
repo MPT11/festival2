@@ -78,11 +78,25 @@
 # 아이디 찾기 처리 요청(전화번호)
 요청내용	: 	/festival/member/findidProc2.fes
 파라미터	:	tel
-컨트롤러	: 	com.githrd.festival.controller.FindIdProc2
+컨트롤러	: 	com.githrd.festival.controller.Member
 처리함수	:	findIdProc2()
 뷰			:	redirect ]
 						성공 : /festival/member/resultid.fes
 						실패 : /festival/member/findid.fes
+--------------------------------------------------------------
+# 이메일 인증 보내기 요청
+요청내용	: 	/festival/member/findidProc2.fes
+파라미터	:	email
+컨트롤러	: 	com.githrd.festival.controller.Member
+처리함수	:	sendMail()
+뷰			:	json : {"numStr" = "??????????"}
+--------------------------------------------------------------
+# 휴대폰 인증 보내기 요청
+요청내용	: 	/festival/member/TelNumCheck.fes
+파라미터	:	tel
+컨트롤러	: 	com.githrd.festival.controller.Member
+처리함수	:	sendSMS()
+뷰			:	json : {"authNumber" = "??????????"}
 --------------------------------------------------------------
 # 아이디 찾기 결과 폼보기 요청
 요청내용	: 	/festival/member/resultid.fes
